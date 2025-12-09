@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho: Eletrólise</title>
+    <style>
+        /* --- Reset e Fontes --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Animação das bolhas --- */
+        .bubbles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .bubble {
+            position: absolute; bottom: -100px;
+            background-color: rgba(15, 59, 70, 0.1);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+        .bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 8s; }
+        .bubble:nth-child(2) { width: 20px; height: 20px; left: 20%; animation-duration: 5s; animation-delay: 1s; }
+        .bubble:nth-child(3) { width: 50px; height: 50px; left: 35%; animation-duration: 10s; animation-delay: 2s; }
+        .bubble:nth-child(4) { width: 80px; height: 80px; left: 50%; animation-duration: 11s; }
+        .bubble:nth-child(5) { width: 35px; height: 35px; left: 55%; animation-duration: 6s; animation-delay: 1s; }
+        .bubble:nth-child(6) { width: 45px; height: 45px; left: 65%; animation-duration: 8s; animation-delay: 3s; }
+        .bubble:nth-child(7) { width: 90px; height: 90px; left: 70%; animation-duration: 12s; animation-delay: 2s; }
+        
+        @keyframes rise {
+            0% { bottom: -100px; transform: translateX(0); }
+            50% { transform: translateX(100px); }
+            100% { bottom: 1000px; transform: translateX(-200px); }
+        }
+
+        /* --- Estilo Geral --- */
+        header {
+            background-color: #0f3b46; color: white; padding: 30px 20px;
+            text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        h1 { margin-bottom: 10px; }
+        .titulo { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .nome { color: #fffacd; font-weight: bold; border-bottom: 2px solid #ffd700; }
+
+        .container {
+            max-width: 1000px; margin: 40px auto; padding: 0 20px; padding-bottom: 60px;
+        }
+
+        /* --- Menu Principal (Cards) --- */
+        .cards-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px; margin-top: 30px;
+        }
+        .card {
+            background: white; border-radius: 15px; padding: 25px;
+            text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; border: 1px solid #eee; position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: #0f3b46; transition: height 0.3s ease;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(15, 59, 70, 0.2); }
+        .card:hover::before { height: 10px; background: #ffd700; }
+        .card-icon { font-size: 3rem; display: block; margin-bottom: 15px; }
+        .card-title { font-size: 1.3rem; font-weight: bold; color: #0f3b46; display: block; }
+        .card-desc { font-size: 0.95rem; color: #666; margin-top: 10px; }
+
+        /* --- Conteudos --- */
+        .content-section {
+            display: none; /* Oculto */
+            background: white; padding: 40px; border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s;
+        }
+
+        .btn-voltar {
+            background-color: #0f3b46; color: white; padding: 10px 20px;
+            border: none; border-radius: 5px; cursor: pointer;
+            font-size: 1rem; margin-bottom: 20px; display: inline-flex; align-items: center;
+            transition: background 0.3s;
+        }
+        .btn-voltar:hover { background-color: #ffd700; color: #0f3b46; }
+
+        /* --- Box de segurança --- */
+        .box-vazio {
+            border: 2px dashed #ffd700;
+            background-color: #fffff0;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+            color: #333;
+            margin-top: 20px;
+            
+            /* Não quebra o layout */
+            width: 100%;
+            height: auto;
+            overflow: auto; 
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .intro-text { background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #0f3b46; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="bubbles">
+        <span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>
+        <span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>
+        <span class="bubble"></span>
+    </div>
+
+    <header>
+        <h1><span class="titulo">Eletrólise</span>: Uma reação do cotidiano</h1>
+        <h2>Prof: <span class="nome">Alberto Brandão</span></h2>
+    </header>
+
+    <main class="container">
+        
+        <div id="menu-principal">
+            <div class="intro-text">
+                <p>Bem-vindos ao guia interativo sobre <b>Eletrólise</b>. Escolha uma opção abaixo para começar:</p>
+            </div>
+
+            <div class="cards-container">
+                <div class="card" onclick="mostrarSecao('doc')">
+                    <span class="card-icon">📄</span>
+                    <span class="card-title">Mini-documentário</span>
+                    <span class="card-desc">Artigo explicativo sobre o processo e história.</span>
+                </div>
+
+                <div class="card" onclick="mostrarSecao('exp')">
+                    <span class="card-icon">🧪</span>
+                    <span class="card-title">Experimento Prático</span>
+                    <span class="card-desc">Montagem e resultados.</span>
+                </div>
+
+                <div class="card" onclick="mostrarSecao('game')">
+                    <span class="card-icon">🎮</span>
+                    <span class="card-title">Jogo Digital</span>
+                    <span class="card-desc">Quiz interativo</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="conteudo-doc" class="content-section">
+            <button class="btn-voltar" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+            <h2>📄 Mini-documentário</h2>
+            
+            <div class="box-vazio">
+
+                <h3 style="color: #0f3b46; border-bottom: 2px solid #ffd700; padding-bottom: 10px;">
+                    Sobre o Documentário
+                </h3>
+
+                <p style="text-align: justify; line-height: 1.8; margin-bottom: 25px;">
+                    A eletrólise é um dos processos mais importantes da Química moderna, pois permite que reações químicas que não aconteceriam sozinhas sejam realizadas com a ajuda da energia elétrica. 
+                    <br><br>
+                    No mini documentário abaixo, o grupo apresenta de forma simples e organizada como esse processo funciona: desde o conceito básico de eletrólise, passando pela estrutura da célula eletrolítica, as reações de oxidação e redução envolvidas, os diferentes tipos de eletrólise e, por fim, suas aplicações no cotidiano e na indústria.
+                </p>
+
+                <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border: 2px solid #0f3b46; border-radius: 10px; overflow: hidden; background: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1L27peZlO8iU2OCeprWMcItqbGNIMbI-c/preview" 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                
+                <p style="text-align: center; font-size: 0.9em; color: #666; margin-top: 10px;">
+                    <i>Assista acima ao vídeo produzido pelo grupo.</i>
+                </p>
+
+            </div>
+        </div>
+
+        <div id="conteudo-exp" class="content-section">
+            <button class="btn-voltar" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+            <h2>🧪 Experimento Prático</h2>
+            
+            <div class="box-vazio">
+
+                <h2 style="text-align: center; color: #0f3b46; margin-bottom: 20px;">🔬 Relatório dos Experimentos</h2>
+
+                <div style="background: #f9f9f9; border-left: 5px solid #ffd700; padding: 20px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <h3 style="color: #0f3b46; margin-top: 0;">💡 1. Teste da Lâmpada: Por que a água conduz?</h3>
+                    <p>
+                        Observamos que a água pura funciona quase como um isolante elétrico (a lâmpada não acende). 
+                        Porém, a mágica acontece quando adicionamos <strong>Sal de Cozinha (NaCl)</strong>.
+                    </p>
+
+                    <div style="background: #e0f7fa; padding: 15px; border-radius: 8px; text-align: center; margin: 15px 0;">
+                        <strong>O que acontece quimicamente?</strong><br>
+                        O sal se dissolve e sofre <em>dissociação iônica</em>:<br>
+                        <span style="font-size: 1.2rem; font-weight: bold; color: #0056b3;">NaCl (s) ➝ Na⁺ (aq) + Cl⁻ (aq)</span>
+                    </div>
+
+                    <p>
+                        <strong>Conclusão:</strong> Esses íons (Na⁺ e Cl⁻) ficam livres para se mover na água, criando um caminho para a corrente elétrica passar e acender a lâmpada.
+                    </p>
+                </div>
+
+                <div style="background: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <h3 style="color: #0f3b46; margin-top: 0;">🔩 2. Eletrólise com Pregos (Novo vs. Enferrujado)</h3>
+                    <p>
+                        Neste experimento, usamos água com <strong>bicarbonato</strong> (para conduzir eletricidade) e uma bateria conectada a dois pregos. A pilha cria dois polos distintos:
+                    </p>
+
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+                        
+                        <div style="flex: 1; min-width: 250px; background: #fff0f0; padding: 15px; border-radius: 10px; border: 1px solid #ffcccc;">
+                            <h4 style="color: #c0392b; margin: 0 0 10px 0;">🔴 O Ânodo (Polo +)</h4>
+                            <p style="margin: 0; font-size: 0.9rem;"><strong>Quem é:</strong> O Prego Enferrujado.</p>
+                            <hr style="border: 0; border-top: 1px solid #ffcccc; margin: 10px 0;">
+                            <p style="margin: 0;">Ocorre a <strong>OXIDAÇÃO</strong>.</p>
+                            <p style="margin-top: 5px;">Libera gás Oxigênio (O₂) e íons de ferro na água.</p>
+                        </div>
+
+                        <div style="flex: 1; min-width: 250px; background: #f0f8ff; padding: 15px; border-radius: 10px; border: 1px solid #cceeff;">
+                            <h4 style="color: #2980b9; margin: 0 0 10px 0;">🔵 O Cátodo (Polo -)</h4>
+                            <p style="margin: 0; font-size: 0.9rem;"><strong>Quem é:</strong> O Prego Novo.</p>
+                            <hr style="border: 0; border-top: 1px solid #cceeff; margin: 10px 0;">
+                            <p style="margin: 0;">Ocorre a <strong>REDUÇÃO</strong>.</p>
+                            <p style="margin-top: 5px;">Libera gás Hidrogênio (H₂).</p>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 20px; font-style: italic; color: #555;">
+                        *Observação visual: As bolhas que vemos subindo nos pregos são a decomposição da água em gases (H₂ e O₂).
+                    </p>
+                </div>
+
+                <div style="background: #333; color: #fff; padding: 15px; border-radius: 8px; text-align: center;">
+                    <strong>RESUMO DA PRÁTICA:</strong><br>
+                    Água + Sal/Bicarbonato ➝ Formação de Íons Livres ➝ A solução conduz eletricidade! ⚡
+                </div> 
+
+            </div>
+        </div>
+       
+        <div id="conteudo-game" class="content-section">
+            <button class="btn-voltar" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+            <h2>🎮 Jogo Digital / Quiz</h2>
+            
+            <div class="box-vazio">
+                <h3 style="color: #0f3b46; border-bottom: 2px solid #ffd700; padding-bottom: 10px;">
+    Mini-documentário: Aplicações e Conceitos
+</h3>
+
+<p class="texto_processo" style="text-align: justify;">
+    A Eletrólise é um <b>processo eletroquímico</b> não espontâneo que utiliza energia elétrica para forçar a ocorrência de reações de oxirredução, sendo fundamental na indústria moderna.
+    <br><br>
+    Neste vídeo, apresentamos a fase beta para testes do nosso jogo.
+</p>
+
+<br>
+
+<div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border: 2px solid #0f3b46; border-radius: 10px; overflow: hidden; background: #000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+    <iframe 
+        src="https://drive.google.com/file/d/1FFWEskXqIuGvd0QvVQhV6TGt3vj37-Pm/preview" 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+        frameborder="0" 
+        allow="autoplay; fullscreen" 
+        allowfullscreen>
+    </iframe>
+</div>
+
+<p style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #555;">
+    <i>Caso o vídeo não carregue, verifique se você está logado no Google.</i>
+</p>
+
+<br> 
+
+<img src="Untitled.png" alt="">
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function mostrarSecao(tipo) {
+            document.getElementById('menu-principal').style.display = 'none';
+            if(tipo === 'doc') document.getElementById('conteudo-doc').style.display = 'block';
+            if(tipo === 'exp') document.getElementById('conteudo-exp').style.display = 'block';
+            if(tipo === 'game') document.getElementById('conteudo-game').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function voltarMenu() {
+            document.getElementById('conteudo-doc').style.display = 'none';
+            document.getElementById('conteudo-exp').style.display = 'none';
+            document.getElementById('conteudo-game').style.display = 'none';
+            document.getElementById('menu-principal').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
