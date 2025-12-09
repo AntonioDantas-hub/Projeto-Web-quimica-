@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="estilo.css">
+
+<title>Trabalho: Eletrólise</title>
+
+
+</head>
+<body>
+<header>
+<h1><span class = "titulo"><b>Eletrólise</b> </span>: Uma reação do cotidiano</h1>
+
+<h2> Prof: <span class="nome"> <b>Alberto Brandão</b></span> </h2>
+
+</header>
+<p>
+    <p class="texto_inicial">
+    <span class="bem_vindo">Bem-vindos ao nosso guia interativo sobre <b>Eletrólise</b></span> 
+    <br>
+    <span class="texto_processo">Este é um <b>processo eletroquímico</b> não espontâneo que utiliza energia elétrica para forçar a ocorrência de reações de oxirredução, <br>
+    sendo fundamental na indústria moderna.</span>
+</p>
+    <br> <br> 
+    <img src="Eletrólise.jpg" alt="" class="eletrolise_foto">
+    <br> <br>
+    <span class="texto_processo">Neste trabalho, apresentaremos e explicaremos a <b>Eletrólise</b> de forma didática e variada, explorando suas aplicações essenciais, como a produção de alumínio e o revestimento de metais (galvanoplastia).</span>
+</p>
+
+<div class="li-ap"> Este projeto conta com as seguintes formas de apresentação:
+<h2>Conteúdo do Projeto: Escolha Sua Abordagem</h2>
+    <p>Utilize os links abaixo para navegar pelas diferentes formas de apresentação desenvolvidas pelo nosso grupo:</p>
+    <ol class="li-ap">
+        <li><a href="#" id="abrir-documentario">📺Mini-documentário (Vídeo explicativo e aplicações)</a></li>
+        <li>🧪Experimento Prático (Detalhes da montagem e resultados)</li>
+        <li><a href="https://www.google.com/search?q=jogo+digital" target="_blank" rel="noopener noreferrer">🎮Jogo Digital (Quiz interativo sobre conceitos e Leis de Faraday)</a></li>
+    </ol>
+</div>
+
+<div id="modal-documentario" class="modal">
+    <div class="modal-overlay"></div>
+    
+    <div class="modal-content">
+        <span class="close-btn" id="fechar-documentario">&times;</span>
+        
+        <div class="video-container">
+            <iframe id="video-frame" 
+            src="" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+    </iframe>
+</div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const abrirBtn = document.getElementById('abrir-documentario');
+    const fecharBtn = document.getElementById('fechar-documentario');
+    const modal = document.getElementById('modal-documentario');
+    const videoFrame = document.getElementById('video-frame');
+
+const embedUrl = "https://drive.google.com/file/d/1V_8W9a00vqTZ6J9sonBjU0UvNXRe8P6n/preview";
+    abrirBtn.addEventListener('click', function(e) {
+        e.preventDefault(); 
+       
+        modal.classList.add('is-visible');
+        
+        videoFrame.src = embedUrl;
+
+        fecharBtn.focus();
+    });
+
+    const fecharModal = () => {
+        modal.classList.remove('is-visible');
+        
+        videoFrame.src = "";
+    };
+
+    fecharBtn.addEventListener('click', fecharModal);
+
+    modal.addEventListener('click', function(e) {
+        if (e.target.id === 'modal-documentario' || e.target.classList.contains('modal-overlay')) {
+            fecharModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-visible')) {
+            fecharModal();
+        }
+    });
+});
+</script>
+
+
+</body>
+
+</html>
